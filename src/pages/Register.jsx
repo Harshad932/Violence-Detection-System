@@ -11,8 +11,7 @@ import {
   Eye, 
   EyeOff, 
   CheckCircle2, 
-  ShieldCheck, 
-  Server
+  ShieldCheck
 } from 'lucide-react';
 
 export default function Register() {
@@ -48,7 +47,7 @@ export default function Register() {
     }
 
     if (!password || password.length < 8) {
-      setError('Password must be at least 8 characters long as required by the backend.');
+      setError('Password must be at least 8 characters long.');
       return;
     }
 
@@ -97,19 +96,10 @@ export default function Register() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-400 text-slate-950 font-bold mb-4 shadow-lg shadow-teal-500/30">
               <UserPlus className="w-7 h-7 stroke-[2.2]" />
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Create Analyst Account</h2>
+            <h2 className="text-2xl font-bold text-white tracking-tight">Create Your Account</h2>
             <p className="text-slate-400 text-xs mt-1.5">
-              Register with the Spring Boot Backend Auth Service
+              Sign up for automated video surveillance and safety monitoring
             </p>
-          </div>
-
-          {/* Backend Connection Indicator */}
-          <div className="mb-5 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <Server className="w-3.5 h-3.5 text-teal-400" />
-              <span>Target Endpoint:</span>
-            </span>
-            <span className="font-mono text-teal-300">POST /auth/register</span>
           </div>
 
           {/* Success Banner */}

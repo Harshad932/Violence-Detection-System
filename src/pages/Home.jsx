@@ -14,9 +14,7 @@ import {
   Play,
   Layers,
   Sparkles,
-  Lock,
-  UserPlus,
-  Server
+  UserPlus
 } from 'lucide-react';
 
 export default function Home({ isAuthenticated: propAuth }) {
@@ -85,12 +83,6 @@ export default function Home({ isAuthenticated: propAuth }) {
               >
                 <span>How It Works</span>
               </a>
-            </div>
-
-            {/* Backend connection note badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400">
-              <Server className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-              <span>Spring Boot JWT Auth Connected: <strong className="text-teal-300 font-mono">/auth/login</strong> • <strong className="text-teal-300 font-mono">/auth/register</strong></span>
             </div>
           </div>
 
@@ -169,7 +161,7 @@ export default function Home({ isAuthenticated: propAuth }) {
           </div>
           <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/80">
             <div className="text-3xl font-extrabold text-sky-400">&lt; 150ms</div>
-            <div className="text-xs text-slate-400 mt-1">Simulation Latency</div>
+            <div className="text-xs text-slate-400 mt-1">Response Latency</div>
           </div>
           <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/80">
             <div className="text-3xl font-extrabold text-emerald-400">100%</div>
@@ -316,7 +308,7 @@ export default function Home({ isAuthenticated: propAuth }) {
             Ready to test video surveillance detection?
           </h3>
           <p className="text-slate-300 text-sm max-w-xl mx-auto mt-2">
-            Create an account or sign in to the analyst portal via the Spring Boot JWT service to upload surveillance footage and run automated classification.
+            Create an account or sign in to upload surveillance footage and run automated violence detection.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             {isAuthenticated ? (
@@ -332,7 +324,7 @@ export default function Home({ isAuthenticated: propAuth }) {
                   to="/register"
                   className="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-slate-950 hover:brightness-110 transition-all shadow-lg shadow-teal-500/20"
                 >
-                  Create Analyst Account
+                  Create Account
                 </Link>
                 <Link
                   to="/login"

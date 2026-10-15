@@ -65,7 +65,7 @@ async function request(endpoint, options = {}) {
     // Check if network failed entirely (server down, CORS blocked, etc.)
     if (err instanceof TypeError && err.message.toLowerCase().includes('fetch')) {
       const networkError = new Error(
-        `Unable to connect to backend server at ${API_BASE_URL}. Please ensure your Spring Boot application is running and CORS is enabled.`
+        'Unable to reach the server. Please check your network connection and try again.'
       );
       networkError.isNetworkError = true;
       throw networkError;

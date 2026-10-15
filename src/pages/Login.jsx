@@ -10,7 +10,6 @@ import {
   Eye, 
   EyeOff, 
   CheckCircle2, 
-  Server,
   KeyRound
 } from 'lucide-react';
 
@@ -76,19 +75,10 @@ export default function Login() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-400 text-slate-950 font-bold mb-4 shadow-lg shadow-teal-500/30">
               <KeyRound className="w-7 h-7 stroke-[2.2]" />
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Security Portal Login</h2>
+            <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>
             <p className="text-slate-400 text-xs mt-1.5">
-              Authenticate with Spring Boot JWT Service to access Detection Studio
+              Sign in to your account to access the detection platform
             </p>
-          </div>
-
-          {/* Backend Connection Indicator */}
-          <div className="mb-5 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <Server className="w-3.5 h-3.5 text-teal-400" />
-              <span>Target Endpoint:</span>
-            </span>
-            <span className="font-mono text-teal-300">POST /auth/login</span>
           </div>
 
           {/* Success Notice (e.g. from registration) */}

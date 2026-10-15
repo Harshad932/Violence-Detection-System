@@ -70,17 +70,12 @@ export default function Navbar() {
                 {/* Logged in User Profile Pill */}
                 <div 
                   className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-200"
-                  title={`Logged in as ${user?.username} (${user?.email || 'No email'}) • User ID: #${user?.userId || 'N/A'}`}
+                  title={`Signed in as ${user?.username || ''}`}
                 >
                   <div className="w-6 h-6 rounded-lg bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-300 font-bold">
                     {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
                   </div>
-                  <div className="text-left">
-                    <span className="font-semibold text-teal-300 block leading-tight">{user?.username}</span>
-                    {user?.userId && (
-                      <span className="text-[10px] text-slate-500 font-mono block">ID: #{user.userId}</span>
-                    )}
-                  </div>
+                  <span className="font-semibold text-teal-300">{user?.username}</span>
                 </div>
 
                 {/* Logout Button */}

@@ -11,23 +11,26 @@ export default function Footer() {
               <Eye className="w-4 h-4" />
             </div>
             <div>
-              <p className="font-semibold text-slate-200">Violence Detection System</p>
-              <p className="text-[11px] text-slate-500">Deep Learning Video Surveillance Prototype</p>
+              <p className="font-semibold text-slate-200">AegisVision AI</p>
+              <p className="text-[11px] text-slate-500">AI-Powered Surveillance Video Analytics</p>
             </div>
           </div>
 
           <div className="flex items-center gap-6 text-slate-400">
             <span className="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
-              <Cpu className="w-3.5 h-3.5 text-teal-400" /> Temporal Spatial ConvNet
+              <Cpu className="w-3.5 h-3.5 text-teal-400" /> Real-Time Frame Analysis
             </span>
             <span className="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
               <ShieldCheck className="w-3.5 h-3.5 text-teal-400" /> Automated Safety Alerting
             </span>
             <span className="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
-              <Database className="w-3.5 h-3.5 text-teal-400" /> Surveillance CCTV Analysis
+              <Database className="w-3.5 h-3.5 text-teal-400" /> Surveillance Video Inspection
             </span>
           </div>
 
+          <p className="text-slate-500 text-center sm:text-right">
+            &copy; {new Date().getFullYear()} AegisVision AI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

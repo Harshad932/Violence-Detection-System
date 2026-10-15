@@ -18,8 +18,7 @@ import {
   BarChart3, 
   Layers, 
   User, 
-  Mail, 
-  Server 
+  Mail 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -44,19 +43,19 @@ export default function Dashboard({ user: propUser }) {
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Sample video URLs for instant one-click testing (free public test videos)
+  // Sample video clips for quick testing
   const sampleVideos = [
     {
-      label: 'Sample A: Fast-Paced / Violent Simulation',
+      label: 'Sample 1: Conflict Altercation',
       url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      name: 'cctv_altercation_sample_01.mp4',
+      name: 'security_feed_event_01.mp4',
       size: '2.4 MB',
       forcedResult: 'violent'
     },
     {
-      label: 'Sample B: Peaceful / Non-Violent Ambient Clip',
+      label: 'Sample 2: Normal Activity',
       url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4',
-      name: 'corridor_peaceful_walk_02.mp4',
+      name: 'hallway_activity_02.mp4',
       size: '2.1 MB',
       forcedResult: 'non-violent'
     }
@@ -230,7 +229,7 @@ export default function Dashboard({ user: propUser }) {
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-teal-400 mb-1">
             <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-            <span>ANALYST WORKSTATION • ACTIVE SESSION</span>
+            <span>SURVEILLANCE WORKSPACE</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Surveillance Video Violence Detection
@@ -239,11 +238,11 @@ export default function Dashboard({ user: propUser }) {
             Upload video clips or select test benchmarks to detect violent vs. non-violent actions.
           </p>
 
-          {/* Authenticated User Profile Information */}
+          {/* User Profile Information */}
           <div className="flex flex-wrap items-center gap-2 pt-2.5">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300">
               <User className="w-3.5 h-3.5 text-teal-400" />
-              <span>Analyst: <strong className="text-teal-300 font-semibold">{user?.username || 'user1'}</strong></span>
+              <span>Signed in as <strong className="text-teal-300 font-semibold">{user?.username}</strong></span>
             </div>
 
             {user?.email && (
@@ -252,25 +251,14 @@ export default function Dashboard({ user: propUser }) {
                 <span>{user.email}</span>
               </div>
             )}
-
-            {user?.userId && (
-              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-teal-500/10 border border-teal-500/20 text-[11px] font-mono text-teal-300">
-                <span>UID: #{user.userId}</span>
-              </div>
-            )}
-
-            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] text-slate-500 font-mono">
-              <Server className="w-3 h-3 text-emerald-400" />
-              <span>JWT Verified</span>
-            </div>
           </div>
         </div>
 
-        {/* Demo Mode Selector (Viva / Presentation Ready) */}
+        {/* Mode Selector */}
         <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
           <span className="text-slate-400 px-2 font-medium flex items-center gap-1">
             <Sliders className="w-3.5 h-3.5 text-teal-400" />
-            <span>Mock Target:</span>
+            <span>Mode:</span>
           </span>
           <button
             onClick={() => setSimulationMode('auto')}
@@ -280,7 +268,7 @@ export default function Dashboard({ user: propUser }) {
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            Auto Smart
+            Auto
           </button>
           <button
             onClick={() => setSimulationMode('violent')}
@@ -290,7 +278,7 @@ export default function Dashboard({ user: propUser }) {
                 : 'text-slate-400 hover:text-rose-400'
             }`}
           >
-            Violent
+            Strict
           </button>
           <button
             onClick={() => setSimulationMode('non-violent')}
@@ -300,7 +288,7 @@ export default function Dashboard({ user: propUser }) {
                 : 'text-slate-400 hover:text-emerald-400'
             }`}
           >
-            Non-Violent
+            Standard
           </button>
         </div>
       </div>
@@ -456,9 +444,9 @@ export default function Dashboard({ user: propUser }) {
           <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-xs text-slate-400 flex items-start gap-3">
             <Layers className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-slate-300">Surveillance Model Architecture</p>
+              <p className="font-semibold text-slate-300">Detection Model Architecture</p>
               <p className="mt-0.5 leading-relaxed">
-                The simulated pipeline utilizes a 3D ResNet-50 backbone fused with Bidirectional ConvLSTM layers to track fast physical acceleration vectors between successive video frames.
+                Utilizes deep spatial-temporal motion modeling to track acceleration vectors and detect potential physical altercations across successive video frames.
               </p>
             </div>
           </div>
