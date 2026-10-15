@@ -15,11 +15,17 @@ import {
   FileVideo, 
   Eye, 
   Clock, 
-  BarChart3,
-  Layers
+  BarChart3, 
+  Layers, 
+  User, 
+  Mail, 
+  Server 
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
-export default function Dashboard({ user }) {
+export default function Dashboard({ user: propUser }) {
+  const { user: authUser } = useAuth();
+  const user = authUser || propUser;
   const [videoFile, setVideoFile] = useState(null);
   const [videoSrc, setVideoSrc] = useState(null);
   const [videoName, setVideoName] = useState('');
@@ -232,6 +238,32 @@ export default function Dashboard({ user }) {
           <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
             Upload video clips or select test benchmarks to detect violent vs. non-violent actions.
           </p>
+
+          {/* Authenticated User Profile Information */}
+          <div className="flex flex-wrap items-center gap-2 pt-2.5">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300">
+              <User className="w-3.5 h-3.5 text-teal-400" />
+              <span>Analyst: <strong className="text-teal-300 font-semibold">{user?.username || 'user1'}</strong></span>
+            </div>
+
+            {user?.email && (
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-400">
+                <Mail className="w-3.5 h-3.5 text-teal-400" />
+                <span>{user.email}</span>
+              </div>
+            )}
+
+            {user?.userId && (
+              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-teal-500/10 border border-teal-500/20 text-[11px] font-mono text-teal-300">
+                <span>UID: #{user.userId}</span>
+              </div>
+            )}
+
+            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-900/60 border border-slate-800 text-[11px] text-slate-500 font-mono">
+              <Server className="w-3 h-3 text-emerald-400" />
+              <span>JWT Verified</span>
+            </div>
+          </div>
         </div>
 
         {/* Demo Mode Selector (Viva / Presentation Ready) */}

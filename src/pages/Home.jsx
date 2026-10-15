@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { 
   ShieldAlert, 
   ShieldCheck, 
@@ -13,10 +14,15 @@ import {
   Play,
   Layers,
   Sparkles,
-  Lock
+  Lock,
+  UserPlus,
+  Server
 } from 'lucide-react';
 
-export default function Home({ isAuthenticated }) {
+export default function Home({ isAuthenticated: propAuth }) {
+  const { isAuthenticated: contextAuth } = useAuth();
+  const isAuthenticated = contextAuth ?? propAuth;
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Glow Circles */}
@@ -30,7 +36,7 @@ export default function Home({ isAuthenticated }) {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-teal-400" />
-              <span> Computer Vision Surveillance</span>
+              <span>Computer Vision Surveillance</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
@@ -44,27 +50,47 @@ export default function Home({ isAuthenticated }) {
 
             {/* Quick action buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-3">
-              <Link
-                to={isAuthenticated ? "/detect" : "/login"}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-teal-400 via-teal-300 to-cyan-400 hover:brightness-110 shadow-xl shadow-teal-500/25 transition-all transform hover:-translate-y-0.5"
-              >
-                <Video className="w-5 h-5 stroke-[2.5]" />
-                <span>{isAuthenticated ? "Open Detection Studio" : "Launch Detection System"}</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  to="/detect"
+                  className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-teal-400 via-teal-300 to-cyan-400 hover:brightness-110 shadow-xl shadow-teal-500/25 transition-all transform hover:-translate-y-0.5"
+                >
+                  <Video className="w-5 h-5 stroke-[2.5]" />
+                  <span>Open Detection Studio</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/register"
+                    className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-teal-400 via-teal-300 to-cyan-400 hover:brightness-110 shadow-xl shadow-teal-500/25 transition-all transform hover:-translate-y-0.5"
+                  >
+                    <UserPlus className="w-5 h-5 stroke-[2.5]" />
+                    <span>Create Account</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+
+                  <Link
+                    to="/login"
+                    className="flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-slate-200 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 transition-colors"
+                  >
+                    <span>Sign In</span>
+                  </Link>
+                </>
+              )}
 
               <a
                 href="#how-it-works"
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl font-medium text-slate-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 transition-colors"
+                className="flex items-center gap-2 px-5 py-3.5 rounded-xl font-medium text-slate-400 hover:text-white transition-colors"
               >
                 <span>How It Works</span>
               </a>
             </div>
 
-            {/* Credential Note badge */}
+            {/* Backend connection note badge */}
             <div className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400">
-              <Lock className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-              <span>Demo Access Credentials: <strong className="text-slate-200">user1</strong> / <strong className="text-slate-200">1234</strong></span>
+              <Server className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+              <span>Spring Boot JWT Auth Connected: <strong className="text-teal-300 font-mono">/auth/login</strong> • <strong className="text-teal-300 font-mono">/auth/register</strong></span>
             </div>
           </div>
 
@@ -290,15 +316,32 @@ export default function Home({ isAuthenticated }) {
             Ready to test video surveillance detection?
           </h3>
           <p className="text-slate-300 text-sm max-w-xl mx-auto mt-2">
-            Sign in to the analyst portal using the demo credentials to upload any video file and run automated classification.
+            Create an account or sign in to the analyst portal via the Spring Boot JWT service to upload surveillance footage and run automated classification.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/login"
-              className="px-6 py-3 rounded-xl font-bold bg-teal-400 text-slate-950 hover:bg-teal-300 transition-colors shadow-lg shadow-teal-500/20"
-            >
-              Go to Login Page
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to="/detect"
+                className="px-6 py-3 rounded-xl font-bold bg-teal-400 text-slate-950 hover:bg-teal-300 transition-colors shadow-lg shadow-teal-500/20"
+              >
+                Go to Detection Studio
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/register"
+                  className="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-slate-950 hover:brightness-110 transition-all shadow-lg shadow-teal-500/20"
+                >
+                  Create Analyst Account
+                </Link>
+                <Link
+                  to="/login"
+                  className="px-6 py-3 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-colors"
+                >
+                  Sign In
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>
