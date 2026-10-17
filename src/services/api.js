@@ -31,6 +31,8 @@ async function handleResponse(response) {
       errorMessage = responseData;
     } else if (response.status === 401) {
       errorMessage = 'Invalid username or password';
+    } else if (response.status === 413) {
+      errorMessage = 'Video file is too large. Please upload a smaller video (maximum 100MB).';
     } else if (response.status === 409) {
       errorMessage = 'User with this username or email already exists';
     } else if (response.status === 400) {
@@ -52,13 +54,16 @@ async function handleResponse(response) {
 async function request(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
   
+  const headers = { ...options.headers };
+  // Only default to application/json if the body is not FormData
+  if (!(options.body instanceof FormData) && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   try {
     const response = await fetch(url, {
       ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
+      headers,
     });
     return await handleResponse(response);
   } catch (err) {
@@ -117,6 +122,25 @@ export const api = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+  },
+
+  /**
+   * Upload video file and obtain violence detection prediction
+   * @param {File|Blob} file - Video file
+   * @param {string} token - JWT authentication token
+   * @returns {Promise<{ label: string, is_violent: boolean, confidence: number, violence_probability: number }>}
+   */
+  async predictViolence(file, token) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return request('/predict', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
     });
   },
 
