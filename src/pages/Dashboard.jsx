@@ -9,7 +9,6 @@ import {
   ShieldCheck, 
   AlertTriangle, 
   CheckCircle2, 
-  Sparkles, 
   Cpu, 
   FileVideo, 
   Eye, 
@@ -41,22 +40,6 @@ export default function Dashboard({ user: propUser }) {
 
   const videoRef = useRef(null);
   const fileInputRef = useRef(null);
-
-  // Sample video clips for quick testing
-  const sampleVideos = [
-    {
-      label: 'Sample 1: Conflict Altercation',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-      name: 'security_feed_event_01.mp4',
-      size: '2.4 MB'
-    },
-    {
-      label: 'Sample 2: Normal Activity',
-      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4',
-      name: 'hallway_activity_02.mp4',
-      size: '2.1 MB'
-    }
-  ];
 
   // Clean up object URLs to prevent memory leaks
   useEffect(() => {
@@ -102,25 +85,6 @@ export default function Dashboard({ user: propUser }) {
     setIsPlaying(false);
   };
 
-  const loadSample = async (sample) => {
-    setError('');
-    setResult(null);
-    setVideoSrc(sample.url);
-    setVideoName(sample.name);
-    setVideoSize(sample.size);
-    setIsPlaying(false);
-
-    try {
-      const res = await fetch(sample.url);
-      const blob = await res.blob();
-      const file = new File([blob], sample.name, { type: blob.type || 'video/mp4' });
-      setVideoFile(file);
-    } catch (e) {
-      console.warn('Could not pre-fetch sample blob:', e);
-      setVideoFile(null);
-    }
-  };
-
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -135,38 +99,17 @@ export default function Dashboard({ user: propUser }) {
 
   // Perform Real Violence Detection via Backend API
   const handleAnalyze = async () => {
-    if (!videoSrc) {
-      setError('Please upload or select a video file first.');
+    if (!videoFile) {
+      setError('Please upload a video file first.');
       return;
     }
 
-    let fileToUpload = videoFile;
-
-    // If video was loaded via sample and fileToUpload wasn't ready
-    if (!fileToUpload && videoSrc) {
-      try {
-        setIsAnalyzing(true);
-        setAnalysisPhase('Preparing video stream...');
-        const res = await fetch(videoSrc);
-        const blob = await res.blob();
-        fileToUpload = new File([blob], videoName || 'video.mp4', { type: blob.type || 'video/mp4' });
-        setVideoFile(fileToUpload);
-      } catch (e) {
-        setError('Could not prepare video file for analysis. Please upload a video from your device.');
-        setIsAnalyzing(false);
-        return;
-      }
-    }
-
-    if (!fileToUpload) {
-      setError('No valid video file available to send. Please upload a video.');
-      return;
-    }
-
-    if (fileToUpload.size > 100 * 1024 * 1024) {
+    if (videoFile.size > 100 * 1024 * 1024) {
       setError('Video file is too large. Maximum supported file size is 100MB.');
       return;
     }
+
+    const fileToUpload = videoFile;
 
     setIsAnalyzing(true);
     setAnalysisPhase('Uploading video and analyzing frames...');
@@ -251,7 +194,7 @@ export default function Dashboard({ user: propUser }) {
             Surveillance Video Violence Detection
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
-            Upload video clips or select test benchmarks to detect violent vs. non-violent actions.
+            Upload video clips to detect violent vs. non-violent actions.
           </p>
 
           {/* User Profile Information */}
@@ -308,26 +251,6 @@ export default function Dashboard({ user: propUser }) {
               >
                 Browse Video File
               </label>
-
-              {/* Sample clips helper */}
-              <div className="mt-8 pt-6 border-t border-slate-800/80 w-full">
-                <p className="text-xs text-slate-400 font-semibold mb-3 flex items-center justify-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-teal-400" />
-                  <span>Or load a demo surveillance sample:</span>
-                </p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {sampleVideos.map((sample, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => loadSample(sample)}
-                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <Video className="w-3 h-3 text-teal-400" />
-                      <span>{sample.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           ) : (
             /* Video Player & Playback Card */
@@ -473,7 +396,7 @@ export default function Dashboard({ user: propUser }) {
                 <p className="text-xs text-slate-500 max-w-xs mx-auto">
                   {videoSrc
                     ? 'Click the "Check Video for Violence" button to process the uploaded footage.'
-                    : 'Upload or pick a sample surveillance video on the left to begin analysis.'}
+                    : 'Upload a surveillance video on the left to begin analysis.'}
                 </p>
               </div>
             )}
